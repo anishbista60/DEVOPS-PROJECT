@@ -39,7 +39,7 @@ jobs:
       - name: Generate deploy manifest from Jinja template
         uses: cuchi/jinja2-action@v1.1.0
         with: 
-          template: GoalApp-CICD/Manifest/deploy.j2
+          template: GoalApp-CICD/Manifest/deploy.yaml
           output_file: GoalApp-CICD/New-Deploy-manifest/new-deploy.yaml
           strict: true
           variables: |
