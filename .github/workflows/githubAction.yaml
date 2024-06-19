@@ -39,7 +39,7 @@ jobs:
       - name: Generate deploy manifest from Jinja template
         uses: cuchi/jinja2-action@v1.1.0
         with: 
-          template: GoalApp-CICD/Manifest/deploy.yaml
+          template: GoalApp-CICD/Manifest/deploy.j2
           output_file: GoalApp-CICD/New-Deploy-manifest/new-deploy.yaml
           strict: true
           variables: |
@@ -61,7 +61,7 @@ jobs:
 
       - name: Commit deploy manifest on local repo
         run: |
-          git add app/deploy/deploy.yaml
+          git add GoalApp-CICD/New-Deploy-manifest/new-deploy.yaml
           git commit -s -m "[skip ci] Generate deployment manifests"
           
       - name: Push deploy manifests to remote repo
