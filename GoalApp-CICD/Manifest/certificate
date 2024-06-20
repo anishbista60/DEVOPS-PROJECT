@@ -3,7 +3,7 @@ kind: Certificate
 metadata:
   name: app
 spec:
-  secretName: app-m86wn 
+  secretName: app
   issuerRef:
     name: production-app
     kind: ClusterIssuer
