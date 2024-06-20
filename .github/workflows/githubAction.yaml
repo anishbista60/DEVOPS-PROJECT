@@ -61,11 +61,7 @@ jobs:
 
       - name: Commit deploy manifest on local repo
         run: |
-<<<<<<< HEAD
-          git add GoalApp-CICD/Manifes/new-deploy.yaml
-=======
           git add GoalApp-CICD/Manifest/new-deploy.yaml
->>>>>>> f7e7dd94ec4bf8d2b26a848c875f8ef18d64f206
           git commit -s -m "[skip ci] Generate deployment manifests"
           
       - name: Push deploy manifests to remote repo
