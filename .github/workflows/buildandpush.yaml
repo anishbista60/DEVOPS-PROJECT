@@ -46,7 +46,7 @@ jobs:
       - name: Generate deploy manifest from Jinja template
         uses: cuchi/jinja2-action@v1.1.0
         with: 
-          template: Production-Ready-project/jinga-template/deploy.yaml
+          template: Production-Ready-project/jinja-template/deploy.yaml
           output_file: Production-Ready-project/manifests/deployment.yaml
           strict: true
           variables: |
