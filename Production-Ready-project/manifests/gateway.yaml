@@ -11,9 +11,9 @@ spec:
   - name: http
     port: 80
     protocol: HTTP
-    hostname: "app.kubesimplify.com"
+    hostname: "app.anishbista.xyz"
   - name: https
-    hostname: "app.kubesimplify.com"
+    hostname: "app.anishbista.xyz"
     port: 443
     protocol: HTTPS
     allowedRoutes:
@@ -22,15 +22,15 @@ spec:
     tls:
       mode: Terminate
       certificateRefs:
-      - name: app-kubesimplify-com-tls
+      - name: demo-com-tls
         kind: Secret
         group: ""
   - name: argo-http
     port: 80
     protocol: HTTP
-    hostname: "argo.kubesimplify.com"
+    hostname: "argo.anishbista.xyz"
   - name: argo-https
-    hostname: "argo.kubesimplify.com"
+    hostname: "argo.anishbista.xyz"
     port: 443
     protocol: HTTPS
     allowedRoutes:
@@ -39,7 +39,7 @@ spec:
     tls:
       mode: Terminate
       certificateRefs:
-      - name: argo-kubesimplify-com-tls
+      - name: argo-com-tls
         kind: Secret
         group: ""
 

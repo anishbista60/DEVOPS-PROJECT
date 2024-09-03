@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: my-app
-        image: anish60/production-ready-project-04b9e024cc18c63f5cb9b24f33641df5@sha256:46c5c6ef790af1c52cb0029190351aec5950bc5ab2bccd36dfa5d42ec4b4ccc2
+        image: anish60/production-ready-project-04b9e024cc18c63f5cb9b24f33641df5:sha-bfb669f
         imagePullPolicy: Always
         env:
         - name: DB_USERNAME
@@ -55,6 +55,7 @@ spec:
             cpu: "250m"
           limits:
             memory: "500Mi"
+<<<<<<< Updated upstream:Production-Ready-project/deploy/deploy.yaml
             cpu: "500m"
 ---
 apiVersion: v1
@@ -86,9 +87,9 @@ spec:
   - name: http
     port: 80
     protocol: HTTP
-    hostname: "demo.anishbista.xyz"
+    hostname: "app.kubesimplify.com"
   - name: https
-    hostname: "demo.anishbista.xyz"
+    hostname: "app.kubesimplify.com"
     port: 443
     protocol: HTTPS
     allowedRoutes:
@@ -97,7 +98,24 @@ spec:
     tls:
       mode: Terminate
       certificateRefs:
-      - name: demo-com-tls
+      - name: app-kubesimplify-com-tls
+        kind: Secret
+        group: ""
+  - name: argo-http
+    port: 80
+    protocol: HTTP
+    hostname: "argo.kubesimplify.com"
+  - name: argo-https
+    hostname: "argo.kubesimplify.com"
+    port: 443
+    protocol: HTTPS
+    allowedRoutes:
+      namespaces:
+        from: All
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: argo-kubesimplify-com-tls
         kind: Secret
         group: ""
 
@@ -111,7 +129,7 @@ spec:
   - name: app-gateway
     namespace: default
   hostnames:
-  - "demo.anishbista.xyz"
+  - "app.kubesimplify.com"
   rules:
   - matches:
     - path:
@@ -120,3 +138,6 @@ spec:
     backendRefs:
     - name: my-app-service
       port: 80
+=======
+            cpu: "500m"
+>>>>>>> Stashed changes:Production-Ready-project/manifests/deployment.yaml

@@ -46,8 +46,8 @@ jobs:
       - name: Generate deploy manifest from Jinja template
         uses: cuchi/jinja2-action@v1.1.0
         with: 
-          template: Production-Ready-project/tmpl/deploy.j2
-          output_file: Production-Ready-project/deploy/deploy.yaml
+          template: Production-Ready-project/jinga-template/deploy.yaml
+          output_file: Production-Ready-project/manifests/deployment.yaml
           strict: true
           variables: |
             image_deploy_tag=sha-${{ env.sha_short }}
@@ -68,7 +68,11 @@ jobs:
 
       - name: Commit deploy manifest on local repo
         run: |
+<<<<<<< Updated upstream
           git add Production-Ready-project/deploy/deploy.yaml
+=======
+          git add Production-Ready-project/manifests/deployment.yaml
+>>>>>>> Stashed changes
           git commit -s -m "[skip ci] Generate deployment manifests"
           
       - name: Push deploy manifests to remote repo
