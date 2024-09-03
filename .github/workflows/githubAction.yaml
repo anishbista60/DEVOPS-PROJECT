@@ -1,10 +1,13 @@
-name: build and push docker image
+name: Build and Push Docker Image
+
 on:
-  push
+  push:
+    paths:
+      - 'GoalApp-CICD/**'
 
 jobs:
   release-docker:
-    name: Release docker image
+    name: Release Docker Image
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: ubuntu-20.04
     steps:
