@@ -1,0 +1,139 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+  labels:
+    app: my-app
+spec:
+  replicas: 3 
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-app
+        image: anish60/production-ready-project-04b9e024cc18c63f5cb9b24f33641df5:{{ image_deploy_tag }}
+        imagePullPolicy: Always
+        env:
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-credentials
+              key: username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-credentials
+              key: password
+        - name: DB_HOST
+          value: my-postgresql-rw.default.svc.cluster.local
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_NAME
+          value: goals_database
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        resources:
+          requests:
+            memory: "350Mi"
+            cpu: "250m"
+          limits:
+            memory: "500Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-app-service
+  labels:
+    app: my-app
+spec:
+  selector:
+    app: my-app
+  ports:
+    - protocol: TCP
+      name: http
+      port: 80
+      targetPort: 8080
+  type: ClusterIP
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: app-gateway
+  namespace: default
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  gatewayClassName: nginx
+  listeners:
+  - name: http
+    port: 80
+    protocol: HTTP
+    hostname: "app.kubesimplify.com"
+  - name: https
+    hostname: "app.kubesimplify.com"
+    port: 443
+    protocol: HTTPS
+    allowedRoutes:
+      namespaces:
+        from: All
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: app-kubesimplify-com-tls
+        kind: Secret
+        group: ""
+  - name: argo-http
+    port: 80
+    protocol: HTTP
+    hostname: "argo.kubesimplify.com"
+  - name: argo-https
+    hostname: "argo.kubesimplify.com"
+    port: 443
+    protocol: HTTPS
+    allowedRoutes:
+      namespaces:
+        from: All
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: argo-kubesimplify-com-tls
+        kind: Secret
+        group: ""
+
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: go-app-route
+spec:
+  parentRefs:
+  - name: app-gateway
+    namespace: default
+  hostnames:
+  - "app.kubesimplify.com"
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: my-app-service
+      port: 80
