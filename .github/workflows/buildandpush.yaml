@@ -40,13 +40,14 @@ jobs:
           KO_DATA_PATH: kodata/
           KO_DOCKER_REPO: docker.io/anish60
         run: |
+          cd Production-Ready-project
           ko build -t sha-${{ env.sha_short }}
           
       - name: Generate deploy manifest from Jinja template
         uses: cuchi/jinja2-action@v1.1.0
         with: 
-          template: tmpl/deploy.j2
-          output_file: deploy/deploy.yaml
+          template: Production-Ready-project/tmpl/deploy.j2
+          output_file: Production-Ready-project/deploy/deploy.yaml
           strict: true
           variables: |
             image_deploy_tag=sha-${{ env.sha_short }}
