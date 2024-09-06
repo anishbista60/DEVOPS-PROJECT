@@ -25,21 +25,4 @@ spec:
       - name: demo-com-tls
         kind: Secret
         group: ""
-  - name: argo-http
-    port: 80
-    protocol: HTTP
-    hostname: "argo.anishbista.xyz"
-  - name: argo-https
-    hostname: "argo.anishbista.xyz"
-    port: 443
-    protocol: HTTPS
-    allowedRoutes:
-      namespaces:
-        from: All
-    tls:
-      mode: Terminate
-      certificateRefs:
-      - name: argo-com-tls
-        kind: Secret
-        group: ""
 
