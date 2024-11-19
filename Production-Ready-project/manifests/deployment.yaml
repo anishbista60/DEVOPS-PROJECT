@@ -5,7 +5,7 @@ metadata:
   labels:
     app: my-app
 spec:
-  replicas: 5
+  replicas: 3 
   selector:
     matchLabels:
       app: my-app
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: my-app
-        image: anish60/production-ready-project-04b9e024cc18c63f5cb9b24f33641df5:sha-e7dffd1
+        image: anish60/production-ready-project-04b9e024cc18c63f5cb9b24f33641df5:sha-45c7f26
         imagePullPolicy: Always
         env:
         - name: DB_USERNAME
