@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: my-app
-        image: anish60/production-ready-project-04b9e024cc18c63f5cb9b24f33641df5:sha-c432b41
+        image: anish60/production-ready-project-04b9e024cc18c63f5cb9b24f33641df5:sha-e7dffd1
         imagePullPolicy: Always
         env:
         - name: DB_USERNAME
